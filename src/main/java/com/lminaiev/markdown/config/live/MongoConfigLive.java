@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.authentication.UserCredentials;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -58,7 +57,7 @@ public class MongoConfigLive extends AbstractMongoConfiguration {
     {
 
         MongoTemplate mongoTemplate = new MongoTemplate(mongo(), getDatabaseName());
-        mongoTemplate.setWriteConcern(WriteConcern.SAFE);
+        mongoTemplate.setWriteConcern(WriteConcern.ACKNOWLEDGED);
 
         return mongoTemplate;
     }

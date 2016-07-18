@@ -1,6 +1,8 @@
 package com.lminaiev.markdown.parser;
 
-import org.springframework.stereotype.Component;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,12 +12,13 @@ import java.util.regex.Pattern;
  *
  * @author Leonid Minaiev
  */
-@Component
 public class HeadersAndParagraphsParser extends Parser {
-    private static Pattern HEADERS_PATTERN = Pattern.compile("^(#{1,6}[^#]).*$");
+    private static final Logger LOG = LoggerFactory.getLogger(HeadersAndParagraphsParser.class);
+    private static final Pattern HEADERS_PATTERN = Pattern.compile("^(#{1,6}[^#]).*$");
 
     @Override
     public String apply(String line) {
+        LOG.debug("Line applied: {}", line);
         String trimmedLine = line.trim();
         if (trimmedLine.isEmpty()) {
             return line;
@@ -39,11 +42,16 @@ public class HeadersAndParagraphsParser extends Parser {
     }
 
     private String wrapWithHeader(String line, int depth) {
-        return String.format("<h%d>%s</h%d>", depth, line.trim(), depth);
+        String result = String.format("<h%d>%s</h%d>", depth, line.trim(), depth);
+        LOG.debug("Wrapping with header, result line: {}", result);
+        return result;
     }
 
     private String wrapWithParagrapf(String line) {
-        return String.format("<p>%s</p>", line.trim());
+        String result = String.format("<p>%s</p>", line.trim());
+        LOG.debug("Wrapping with paragraph, result line: {}", result);
+        return result;
+
     }
 
 }
